@@ -1,21 +1,29 @@
 const fs = require('fs')
+const { argv } = require('process')
+// const { CLIENT_RENEG_LIMIT } = require('tls')
 
-const crearArchivo = async (base=7) => {
-try{
+const crearArchivo = async (base = 7, listar = false, hasta=10) => {
+    try{
+        
+        
+        let tabla = ''
+        let tablaArchivo= ''
+        
+        for (let i= 1; i <= hasta ; i++){
+            tabla += `${base.toString().rainbow} x ${i.toString().rainbow} = ${(base*i).toString().rainbow}\n`
+            tablaArchivo += `${base} x ${i} = ${base*i}\n`
+        }
+        if(listar){
 
-    console.log('=============================================================')
-    console.log('Tabla del', base)
-    console.log('=============================================================')
-    
-    let tabla = ''
-    
-for (let i= 1; i <= 10 ; i++){
-    tabla += `${base} x ${i} = ${base*i}\n`
-}
+            console.log('=============================================================')
+            console.log('Tabla del'.rainbow, base)
+            console.log('=============================================================')
+            
+            console.log(tabla)
+        }
 
-console.log(tabla)
 const nombreArchivo = `tabla-${base}.txt`
-fs.writeFile(nombreArchivo, tabla, (err)=>{
+fs.writeFile(`./tablas/${nombreArchivo}`, tablaArchivo, (err)=>{
     if (err) throw err
 })
 return nombreArchivo
@@ -24,5 +32,5 @@ return nombreArchivo
 }
 }
 
-module.exports = {crearArchivo,}
+module.exports = {crearArchivo}
 
